@@ -1,5 +1,8 @@
 package com.basesoftware.tradinghelperkotlin.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 /**
  * * shareLogoId => Logo id (String)
  * * shareCode => Hisse ismi-kodu (String)
@@ -12,6 +15,7 @@ package com.basesoftware.tradinghelperkotlin.model
  * * shareCci20 => CCI 20 (Double)
  */
 
+@Parcelize
 data class ResponseRecyclerModel(
     var shareLogoId : String? = null,
     var shareCode : String? = null,
@@ -22,4 +26,4 @@ data class ResponseRecyclerModel(
     var shareRsi14 : Double? = null,
     var shareCci20 : Double? = null,
     var shareName : String? = null
-)
+) : Parcelable

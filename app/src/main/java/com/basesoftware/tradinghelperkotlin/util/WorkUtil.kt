@@ -4,6 +4,10 @@ import com.basesoftware.tradinghelperkotlin.model.*
 
 object WorkUtil {
 
+    const val REQUEST_URL = "https://scanner.tradingview.com/turkey/scan"
+    const val BASE_URL = "https://scanner.tradingview.com"
+    const val PATH_URL = "/turkey/scan"
+
     fun defaultFilterModel() : ApiRequestModel {
         return ApiRequestModel(
             arrayListOf(
