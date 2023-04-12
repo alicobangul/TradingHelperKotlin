@@ -140,7 +140,7 @@ class OnlineFragment : Fragment() {
 
         compositeDisposable = CompositeDisposable()
 
-        shareAdapter = ShareAdapter(sharedViewModel.getDataList())
+        shareAdapter = ShareAdapter(sharedViewModel)
 
         binding.apply {
 

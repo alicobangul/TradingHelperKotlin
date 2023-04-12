@@ -37,6 +37,8 @@ object ExtensionUtil {
 
     } // HttpUrlConnection settings ayarları
 
+    fun Any?.isNotNull() = this != null
+
     private fun String.convertChar() : String = replace(",",".")
 
 
