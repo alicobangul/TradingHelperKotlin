@@ -8,6 +8,7 @@ object WorkUtil {
     const val BASE_URL = "https://scanner.tradingview.com"
     const val PATH_URL = "/turkey/scan"
 
+    // Tüm verilerin gösterilmesi için kullanılan requestBody'nin model hali
     fun defaultFilterModel() : ApiRequestModel {
         return ApiRequestModel(
             arrayListOf(
@@ -48,6 +49,7 @@ object WorkUtil {
         )
     }
 
+    // Spesifik olarak arama yapmak için requestBody modeline ekstra olarak eklenen model
     fun searchFilterModel(query : String) : ApiRequestModel {
 
         return defaultFilterModel().apply {

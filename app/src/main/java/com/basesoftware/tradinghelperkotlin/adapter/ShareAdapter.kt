@@ -7,11 +7,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
 import com.basesoftware.tradinghelperkotlin.databinding.DialogInfoBinding
 import com.basesoftware.tradinghelperkotlin.databinding.RowShareBinding
-import com.basesoftware.tradinghelperkotlin.db.WatchDao
-import com.basesoftware.tradinghelperkotlin.db.WatchDatabase
+import com.basesoftware.tradinghelperkotlin.model.ResponseRecyclerModel
 import com.basesoftware.tradinghelperkotlin.model.WatchModel
 import com.basesoftware.tradinghelperkotlin.util.ExtensionUtil.isNotNull
 import com.basesoftware.tradinghelperkotlin.viewmodel.SharedViewModel
@@ -26,65 +24,61 @@ import kotlinx.coroutines.withContext
 
 class ShareAdapter(private val sharedViewModel: SharedViewModel) : RecyclerView.Adapter<ShareAdapter.ShareHolder>() {
 
-    private lateinit var recyclerView: RecyclerView
-
-    private lateinit var db : WatchDatabase
-    private lateinit var dao : WatchDao
+    private var adapterDataList : ArrayList<ResponseRecyclerModel> = arrayListOf()
 
     private lateinit var dialog : Dialog
     private lateinit var dialogBinding : DialogInfoBinding
 
     class ShareHolder(val binding : RowShareBinding) : RecyclerView.ViewHolder(binding.root)
 
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-
-        this.recyclerView = recyclerView
-        db = Room.databaseBuilder(recyclerView.context.applicationContext, WatchDatabase::class.java, "TradingHelperKotlin").allowMainThreadQueries().build()
-        dao = db.watchDao()
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShareHolder {
 
         val binding = RowShareBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        val holder = ShareHolder(binding)
+        val holder = ShareHolder(binding) // Yer tutucu
 
+        // Item'a tıklandığında oluşacak aksiyon
         binding.root.setOnClickListener {
 
+            // Dialog oluştur
             dialog = Dialog(holder.itemView.context).apply {
 
-                dialogBinding = DialogInfoBinding.inflate(LayoutInflater.from(parent.context))
-                window?.setBackgroundDrawable(ColorDrawable(android.R.color.transparent))
-                dialogBinding.data = sharedViewModel.getDataList()[holder.bindingAdapterPosition]
+                dialogBinding = DialogInfoBinding.inflate(LayoutInflater.from(parent.context)) // Dialog binding'i bağla
+                window?.setBackgroundDrawable(ColorDrawable(android.R.color.transparent)) // Dialog arkaplan'ı transparan yap
+                dialogBinding.data = adapterDataList[holder.bindingAdapterPosition] // DataBinding variable ile Dialog içerisinde gösterilecek veriyi gönder
 
                 dialogBinding.btnAction.setOnClickListener {
+
+                    // Eğer butonda: İzleme listesine ekle yazıyorsa veritabanına ekle İzleme listesinden çıkar yazıyorsa veritabanından sil
                     when((it as Button).text.toString()){
-                        "İzleme listesine ekle" -> addWatch(WatchModel(sharedViewModel.getDataList()[holder.bindingAdapterPosition].shareCode!!))
-                        "İzleme listesinden çıkar" -> deleteWatch(WatchModel(sharedViewModel.getDataList()[holder.bindingAdapterPosition].shareCode!!))
+
+                        "İzleme listesine ekle" -> addWatchDb(WatchModel(adapterDataList[holder.bindingAdapterPosition].shareCode!!))
+
+                        "İzleme listesinden çıkar" -> deleteWatchDb(WatchModel(adapterDataList[holder.bindingAdapterPosition].shareCode!!))
+
                     }
-                    hide()
+
+                    hide() // Dialog kapat
+
                 }
 
                 when(sharedViewModel.getIsRxJava()) {
-                    true -> {
-                        dao.getWatchDataRxjava(sharedViewModel.getDataList()[holder.bindingAdapterPosition].shareCode!!)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribeWith(object : DisposableSingleObserver<WatchModel?>(){
 
-                                override fun onSuccess(t: WatchModel) { checkWatch(true) }
+                    true -> sharedViewModel.dao.getWatchDataRxjava(adapterDataList[holder.bindingAdapterPosition].shareCode!!) // Veritabanında veriyi sorgula
+                        .subscribeOn(Schedulers.io()) // I/O thread kullan
+                        .observeOn(AndroidSchedulers.mainThread()) // MainThread gözlemledi
+                        .subscribeWith(object : DisposableSingleObserver<WatchModel?>(){
 
-                                override fun onError(e: Throwable) { checkWatch(false) }
+                            override fun onSuccess(t: WatchModel) { showDialog(true) } // Veri mevcut dialog gösterilecek
 
-                            })
+                            override fun onError(e: Throwable) { showDialog(false) } // Veri yok dialog gösterilmeyecek
 
-
-                    }
+                        })
 
                     false -> CoroutineScope(Dispatchers.IO).launch {
-                        val exist = dao.getWatchDataCoroutines(sharedViewModel.getDataList()[holder.bindingAdapterPosition].shareCode!!)
-                        withContext(Dispatchers.Main) { checkWatch(exist.isNotNull()) }
+                        val exist = sharedViewModel.dao.getWatchDataCoroutines(adapterDataList[holder.bindingAdapterPosition].shareCode!!) // Veritabanında veriyi sorgula
+                        withContext(Dispatchers.Main) { showDialog(exist.isNotNull()) } // Duruma göre dialog göster/gösterme
                     }
 
                 }
@@ -98,60 +92,75 @@ class ShareAdapter(private val sharedViewModel: SharedViewModel) : RecyclerView.
 
     override fun onBindViewHolder(holder: ShareHolder, position: Int) {
 
-        holder.binding.data = sharedViewModel.getDataList()[holder.bindingAdapterPosition]
+        holder.binding.data = adapterDataList[holder.bindingAdapterPosition] // Veriyi ekrana yaz
 
     }
 
-    override fun getItemCount(): Int = sharedViewModel.getDataList().size
+    override fun getItemCount(): Int = adapterDataList.size // RecyclerView item sayısı
 
-    private fun addWatch(watchModel: WatchModel) {
-
-        when(sharedViewModel.getIsRxJava()) {
-            true -> {
-                dao.setWatchDataRxjava(watchModel)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(object : DisposableCompletableObserver(){
-
-                        override fun onComplete() { Log.i("TradingHelperKotlin", "Rxjava - veri ekleme başarılı") }
-
-                        override fun onError(e: Throwable) { Log.i("TradingHelperKotlin", "Rxjava - veri ekleme başarısız") }
-
-                    })
-            }
-            else -> CoroutineScope(Dispatchers.IO).launch { dao.setWatchDataCoroutines(watchModel) }
-        }
-
-    }
-
-    private fun deleteWatch(watchModel: WatchModel) {
+    private fun addWatchDb(watchModel: WatchModel) {
 
         when(sharedViewModel.getIsRxJava()) {
-            true -> {
-                dao.deleteWatchDataRxjava(watchModel)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(object : DisposableCompletableObserver() {
 
-                        override fun onComplete() { Log.i("TradingHelperKotlin", "Rxjava - veri silme başarılı") }
+            true -> sharedViewModel.dao.setWatchDataRxjava(watchModel) // Veriyi database'e kaydet
+                .subscribeOn(Schedulers.io()) // I/O thread kullan
+                .observeOn(AndroidSchedulers.mainThread()) // MainThread gözlemledi
+                .subscribeWith(object : DisposableCompletableObserver(){
 
-                        override fun onError(e: Throwable) { Log.i("TradingHelperKotlin", "Rxjava - veri silme başarısız") }
+                    override fun onComplete() { Log.i("TradingHelperKotlin", "Rxjava - veri ekleme başarılı") }
 
-                    })
-            }
+                    override fun onError(e: Throwable) { Log.i("TradingHelperKotlin", "Rxjava - veri ekleme başarısız") }
 
-            false -> { CoroutineScope(Dispatchers.IO).launch { dao.deleteWatchDataCoroutines(watchModel) } }
+                })
+
+            else -> CoroutineScope(Dispatchers.IO).launch { sharedViewModel.dao.setWatchDataCoroutines(watchModel) } // Veriyi database'e kaydet
 
         }
 
     }
 
-    private fun checkWatch(exist : Boolean) {
+    private fun deleteWatchDb(watchModel: WatchModel) {
+
+        when(sharedViewModel.getIsRxJava()) {
+
+            true -> sharedViewModel.dao.deleteWatchDataRxjava(watchModel) // Veriyi database'den sil
+                .subscribeOn(Schedulers.io()) // I/O thread kullan
+                .observeOn(AndroidSchedulers.mainThread()) // MainThread gözlemledi
+                .subscribeWith(object : DisposableCompletableObserver() {
+
+                    override fun onComplete() { Log.i("TradingHelperKotlin", "Rxjava - veri silme başarılı") }
+
+                    override fun onError(e: Throwable) { Log.i("TradingHelperKotlin", "Rxjava - veri silme başarısız") }
+
+                })
+
+            false -> CoroutineScope(Dispatchers.IO).launch { sharedViewModel.dao.deleteWatchDataCoroutines(watchModel) } // Veriyi database'den sil
+
+        }
+
+    }
+
+    private fun showDialog(exist : Boolean) {
+
+        /**
+         * Verinin veritabanında mevcut olup/olmamasına göre butonun text'i değiştiriliyor
+         * Eğer veri var ise İzleme listesinden çıkar, veri yok ise İzleme listesine ekle
+         */
         dialogBinding.btnAction.text = if(exist) "İzleme listesinden çıkar" else "İzleme listesine ekle"
+
         dialog.apply {
-            setContentView(dialogBinding.root)
-            show()
+
+            setContentView(dialogBinding.root) // Görünümü ekle
+
+            show() // Dialog kutusunu göster
+
         }
+
+    }
+
+    fun update (dataList : ArrayList<ResponseRecyclerModel>) {
+        adapterDataList = dataList // Mevcut veri listesini güncelle
+        notifyDataSetChanged() // Adaptöre verilerin güncellendiği bildir (DiffUtil veya AsyncListDiffer kullanılabilir)
     }
 
 }

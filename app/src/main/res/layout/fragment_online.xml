@@ -32,7 +32,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeData"
+        android:id="@+id/swipeOnline"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtSearchLayout">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerData"
+            android:id="@+id/recyclerOnline"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"

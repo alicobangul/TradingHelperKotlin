@@ -25,7 +25,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navBottom"
         android:layout_width="0dp"
-        android:layout_height="65dp"
+        android:layout_height="55dp"
         app:backgroundTint="#111111"
         app:itemIconSize="18dp"
         app:itemIconTint="@color/white"

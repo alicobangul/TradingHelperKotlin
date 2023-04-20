@@ -11,14 +11,14 @@ interface TradingAPI {
 
     @POST("{path}")
     fun getData(
-        @Path("path") path : String,
-        @Body parameter : String
+        @Path("path") path : String, // API tarafındaki yol
+        @Body parameter : String // Yollanan requestBody
     ) : Call<ApiResponseModel>
 
     @POST("{path}")
     fun getDataRxJava(
-        @Path("path") path : String,
-        @Body parameter : String
+        @Path("path") path : String, // API tarafındaki yol
+        @Body parameter : String // Yollanan requestBody
     ) : Single<ApiResponseModel>
 
 }
