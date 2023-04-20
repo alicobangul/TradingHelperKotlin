@@ -8,6 +8,7 @@
 <li>Retrofit</li>
 <li>Volley</li>
 <li>OkHttp</li>
+<li>HttpUrlConnection</li>
 <li>Room</li>
 <li>ViewModel (SavedStateHandle + ViewModel Factory)</li>
 <li>Navigation</li>
