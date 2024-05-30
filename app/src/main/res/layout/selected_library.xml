@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:text="Kullanmak istediğiniz kütüphane :"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/rdGroupLibrary"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="5dp">
+
+        <RadioButton
+            android:id="@+id/rdRetrofit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Retrofit" />
+
+        <RadioButton
+            android:id="@+id/rdVolley"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Volley" />
+
+        <RadioButton
+            android:id="@+id/rdOkHttp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OkHttp" />
+
+        <RadioButton
+            android:id="@+id/rdUrlConnection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HttpUrlConnection" />
+
+    </RadioGroup>
+
+</LinearLayout>

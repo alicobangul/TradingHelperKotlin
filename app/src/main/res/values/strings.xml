@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">TradingHelperKotlin</string>
+
+    <string name="zeroprice">0.00</string>
+
+    <string name="negativeprice">%1$s</string>
+    <string name="positiveprice">+%1$s</string>
+
+    <string name="zerochangeabs">0.00%</string>
+    <string name="negativechangeabs">%1$s%2$s</string>
+    <string name="positivechangeabs">+%1$s%2$s</string>
+
+</resources>
