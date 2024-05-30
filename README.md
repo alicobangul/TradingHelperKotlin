@@ -2,7 +2,7 @@
 
 <ul>
 <li>MVVM</li>
-<li>RxJava</li>
+<li>RxKotlin</li>
 <li>Retrofit</li>
 <li>Volley</li>
 <li>OkHttp</li>

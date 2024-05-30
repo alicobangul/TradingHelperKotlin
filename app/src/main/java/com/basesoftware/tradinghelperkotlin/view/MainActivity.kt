@@ -63,11 +63,11 @@ class MainActivity : AppCompatActivity(), TradingHelperAdapter.ItemListener {
         binding.lifecycleOwner = this
 
         binding.recyclerTrading.apply {
-            setHasFixedSize(true) // Boyutunun değişmeyeceği bildirilidi (performans için)
+            setHasFixedSize(true) // Boyutunun değişmeyeceği bildirildi (performans için)
             layoutManager = LinearLayoutManager(context) // LayoutManager ayarlandı
             adapter = tradingHelperAdapter // Adaptör bağlandı
             (adapter as TradingHelperAdapter).itemListener(this@MainActivity) // Adaptöre listener verildi
-            adapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY // Recyclerview state kaydedildi eğer veri var ise eski konuma gidecek
+            adapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY // Recyclerview state kaydedildi, eğer veri var ise eski konuma gidilecek
         }
 
         viewmodel.openObservers() // Viewmodel gözlemcileri açıldı
@@ -142,6 +142,7 @@ class MainActivity : AppCompatActivity(), TradingHelperAdapter.ItemListener {
 
     private fun startApp() { viewmodel.getData("") } // Uygulama default filtre ile başlatıldı
 
+    // Recyclerview item click
     override fun itemClick(data: ResponseRecyclerModel) {
 
         Dialog(this@MainActivity).apply {
