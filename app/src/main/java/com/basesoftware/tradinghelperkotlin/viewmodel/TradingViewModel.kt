@@ -78,21 +78,27 @@ class TradingViewModel @Inject constructor(private var repository: TradingHelper
     private fun convertData(data : ApiResponseModel) {
 
         val outputList : List<ResponseRecyclerModel> = data.shareList.map {
+
             ResponseRecyclerModel(
-                shareLogoId = (it.shareInfo[2] ?: "null").toString(),
-                shareCode = (it.shareInfo[0] ?: "-").toString(),
-                sharePrice = (it.shareInfo[6] ?: 0.00) as Double,
-                shareChangeAbs = (it.shareInfo[12]?: 0.00) as Double,
-                shareChangePrice = (it.shareInfo[13] ?: 0.00) as Double,
-                shareRsi7 = (it.shareInfo[14]?: 0.00) as Double,
-                shareRsi14 = (it.shareInfo[15]?: 0.00) as Double,
-                shareCci20 = (it.shareInfo[16]?: 0.00) as Double,
-                shareName = (it.shareInfo[1]?: "-").toString()
+                shareLogoId = it.shareInfo[2].toDataString(),
+                shareCode = it.shareInfo[0].toDataString(),
+                sharePrice = it.shareInfo[6].toDataDouble(),
+                shareChangeAbs = it.shareInfo[12].toDataDouble(),
+                shareChangePrice = it.shareInfo[13].toDataDouble(),
+                shareRsi7 = it.shareInfo[14].toDataDouble(),
+                shareRsi14 = it.shareInfo[15].toDataDouble(),
+                shareCci20 = it.shareInfo[16].toDataDouble(),
+                shareName = it.shareInfo[1].toDataString()
             )
+
         }
 
         dataList.value = ArrayList(outputList)
 
     }
+
+    private fun Any?.toDataDouble() = (this ?: 0.00) as Double
+
+    private fun Any?.toDataString() = (this ?: "-").toString()
 
 }

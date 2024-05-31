@@ -1,9 +1,12 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <variable
-            name="data"
-            type="com.basesoftware.tradinghelperkotlin.model.domain.ResponseRecyclerModel" />
+
+        <variable name="data" type="com.basesoftware.tradinghelperkotlin.model.domain.ResponseRecyclerModel" />
+
+        <import type="android.graphics.Color" />
+
     </data>
 
     <LinearLayout
@@ -122,7 +125,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:shareChangePrice="@{data.shareChangePrice}" />
+                        android:shareChangePrice="@{data.shareChangePrice}"
+                        android:textColor="@{(data.shareChangePrice == null || data.shareChangePrice == 0) ? Color.GRAY : data.shareChangePrice > 0 ? Color.GREEN : Color.RED}" />
 
                 </LinearLayout>
 
@@ -156,7 +160,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:shareChangeAbs="@{data.shareChangeAbs}" />
+                        android:shareChangeAbs="@{data.shareChangeAbs}"
+                        android:textColor="@{(data.shareChangeAbs == null || data.shareChangeAbs == 0) ? Color.GRAY : data.shareChangeAbs > 0 ? Color.GREEN : Color.RED}" />
 
                 </LinearLayout>
 

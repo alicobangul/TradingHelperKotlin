@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable
-            name="data"
-            type="com.basesoftware.tradinghelperkotlin.model.domain.ResponseRecyclerModel" />
+        <variable name="data" type="com.basesoftware.tradinghelperkotlin.model.domain.ResponseRecyclerModel" />
 
         <import type="android.graphics.Color" />
 
