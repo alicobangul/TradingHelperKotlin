@@ -2,7 +2,7 @@ package com.basesoftware.tradinghelperkotlin.di
 
 import android.content.Context
 import com.android.volley.toolbox.Volley
-import com.basesoftware.tradinghelperkotlin.service.TradingAPI
+import com.basesoftware.tradinghelperkotlin.data.remote.TradingAPI
 import com.basesoftware.tradinghelperkotlin.util.Constant
 import com.google.gson.GsonBuilder
 import dagger.Module

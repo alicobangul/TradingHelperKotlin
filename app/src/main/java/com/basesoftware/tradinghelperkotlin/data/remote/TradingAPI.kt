@@ -1,6 +1,6 @@
-package com.basesoftware.tradinghelperkotlin.service
+package com.basesoftware.tradinghelperkotlin.data.remote
 
-import com.basesoftware.tradinghelperkotlin.model.domain.api.ApiResponseModel
+import com.basesoftware.tradinghelperkotlin.data.model.ApiResponseModel
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.Body
 import retrofit2.http.POST

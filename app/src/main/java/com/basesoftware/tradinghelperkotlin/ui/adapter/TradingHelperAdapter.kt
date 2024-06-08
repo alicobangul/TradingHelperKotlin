@@ -1,4 +1,4 @@
-package com.basesoftware.tradinghelperkotlin.adapter
+package com.basesoftware.tradinghelperkotlin.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.basesoftware.tradinghelperkotlin.databinding.RowShareBinding
-import com.basesoftware.tradinghelperkotlin.model.domain.ResponseRecyclerModel
+import com.basesoftware.tradinghelperkotlin.domain.model.ResponseRecyclerModel
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Inject
 

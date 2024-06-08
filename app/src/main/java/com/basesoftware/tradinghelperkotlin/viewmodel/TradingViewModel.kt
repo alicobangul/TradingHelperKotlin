@@ -2,10 +2,11 @@ package com.basesoftware.tradinghelperkotlin.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.basesoftware.tradinghelperkotlin.model.domain.api.ApiResponseModel
-import com.basesoftware.tradinghelperkotlin.model.domain.ResponseRecyclerModel
-import com.basesoftware.tradinghelperkotlin.model.TradingHelperRepository
-import com.basesoftware.tradinghelperkotlin.model.domain.api.ApiRequestModel
+import com.basesoftware.tradinghelperkotlin.data.model.ApiResponseModel
+import com.basesoftware.tradinghelperkotlin.domain.model.ResponseRecyclerModel
+import com.basesoftware.tradinghelperkotlin.data.repository.TradingHelperRepository
+import com.basesoftware.tradinghelperkotlin.data.model.ApiRequestModel
+import com.basesoftware.tradinghelperkotlin.util.Library
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
@@ -50,17 +51,17 @@ class TradingViewModel @Inject constructor(private var repository: TradingHelper
     }
 
     // Seçilen kütüphaneye göre isteği at
-    fun newRequest(requestLibrary : String, requestBody : String) {
+    fun newRequest(requestLibrary : Library, requestBody : String) {
 
         when(requestLibrary) {
 
-            "Retrofit" -> repository.requestRetrofit(requestBody)
+            Library.RETROFIT -> repository.requestRetrofit(requestBody)
 
-            "Volley" -> repository.requestVolley(requestBody)
+            Library.VOLLEY -> repository.requestVolley(requestBody)
 
-            "OkHttp" -> repository.requestOkHttp(requestBody)
+            Library.OKHTTP-> repository.requestOkHttp(requestBody)
 
-            "HttpUrlConnection" -> repository.requestHttpUrlConnection(requestBody)
+            Library.HTTPURLCONNECTION -> repository.requestHttpUrlConnection(requestBody)
 
         }
 

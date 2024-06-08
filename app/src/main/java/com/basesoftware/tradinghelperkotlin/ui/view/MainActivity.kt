@@ -1,4 +1,4 @@
-package com.basesoftware.tradinghelperkotlin.view
+package com.basesoftware.tradinghelperkotlin.ui.view
 
 import android.app.Dialog
 import android.content.Context
@@ -14,11 +14,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.basesoftware.tradinghelperkotlin.adapter.TradingHelperAdapter
+import com.basesoftware.tradinghelperkotlin.ui.adapter.TradingHelperAdapter
 import com.basesoftware.tradinghelperkotlin.databinding.ActivityMainBinding
 import com.basesoftware.tradinghelperkotlin.databinding.DialogInfoBinding
 import com.basesoftware.tradinghelperkotlin.databinding.SelectedLibraryBinding
-import com.basesoftware.tradinghelperkotlin.model.domain.ResponseRecyclerModel
+import com.basesoftware.tradinghelperkotlin.domain.model.ResponseRecyclerModel
+import com.basesoftware.tradinghelperkotlin.util.Library
 import com.basesoftware.tradinghelperkotlin.viewmodel.TradingViewModel
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
@@ -80,13 +81,13 @@ class MainActivity : AppCompatActivity(), TradingHelperAdapter.ItemListener {
 
         val dialogBinding: SelectedLibraryBinding = SelectedLibraryBinding.inflate(layoutInflater)
 
-        libraryDialog.setView(dialogBinding.getRoot())
+        libraryDialog.setView(dialogBinding.root)
 
         libraryDialog.setPositiveButton("TAMAM") { _: DialogInterface?, _: Int ->
 
             val selectedLibraryView: RadioButton = dialogBinding.root.findViewById(dialogBinding.rdGroupLibrary.checkedRadioButtonId)
 
-            val selectedLibrary = selectedLibraryView.text.toString()
+            val selectedLibrary = selectedLibraryView.tag as Library
 
             viewmodel.newRequest(selectedLibrary, requestBody)
 

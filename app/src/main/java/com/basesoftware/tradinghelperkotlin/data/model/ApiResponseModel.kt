@@ -1,4 +1,4 @@
-package com.basesoftware.tradinghelperkotlin.model.domain.api
+package com.basesoftware.tradinghelperkotlin.data.model
 
 import com.google.gson.annotations.SerializedName
 

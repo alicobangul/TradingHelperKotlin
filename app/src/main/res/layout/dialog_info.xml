@@ -3,7 +3,7 @@
 
     <data>
 
-        <variable name="data" type="com.basesoftware.tradinghelperkotlin.model.domain.ResponseRecyclerModel" />
+        <variable name="data" type="com.basesoftware.tradinghelperkotlin.domain.model.ResponseRecyclerModel" />
 
         <import type="android.graphics.Color" />
 

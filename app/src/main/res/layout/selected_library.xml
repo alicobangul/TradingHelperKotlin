@@ -1,51 +1,64 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:orientation="vertical">
+<layout>
 
-    <TextView
+    <data>
+
+        <import type="com.basesoftware.tradinghelperkotlin.util.Library"/>
+
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:text="Kullanmak istediğiniz kütüphane :"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_gravity="center"
+        android:orientation="vertical">
 
-    <RadioGroup
-        android:id="@+id/rdGroupLibrary"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginStart="5dp">
-
-        <RadioButton
-            android:id="@+id/rdRetrofit"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="Retrofit" />
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:text="Kullanmak istediğiniz kütüphane :"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-        <RadioButton
-            android:id="@+id/rdVolley"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Volley" />
+        <RadioGroup
+            android:id="@+id/rdGroupLibrary"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp">
 
-        <RadioButton
-            android:id="@+id/rdOkHttp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="OkHttp" />
+            <RadioButton
+                android:id="@+id/rdRetrofit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Retrofit"
+                android:tag="@{Library.RETROFIT}"/>
 
-        <RadioButton
-            android:id="@+id/rdUrlConnection"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="HttpUrlConnection" />
+            <RadioButton
+                android:id="@+id/rdVolley"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Volley"
+                android:tag="@{Library.VOLLEY}"/>
 
-    </RadioGroup>
+            <RadioButton
+                android:id="@+id/rdOkHttp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="OkHttp"
+                android:tag="@{Library.OKHTTP}"/>
 
-</LinearLayout>
+            <RadioButton
+                android:id="@+id/rdUrlConnection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="HttpUrlConnection"
+                android:tag="@{Library.HTTPURLCONNECTION}"/>
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+</layout>

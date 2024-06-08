@@ -1,4 +1,4 @@
-package com.basesoftware.tradinghelperkotlin.model.domain
+package com.basesoftware.tradinghelperkotlin.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

@@ -1,10 +1,10 @@
-package com.basesoftware.tradinghelperkotlin.model
+package com.basesoftware.tradinghelperkotlin.data.repository
 
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
-import com.basesoftware.tradinghelperkotlin.model.domain.api.ApiResponseModel
-import com.basesoftware.tradinghelperkotlin.service.TradingAPI
+import com.basesoftware.tradinghelperkotlin.data.model.ApiResponseModel
+import com.basesoftware.tradinghelperkotlin.data.remote.TradingAPI
 import com.basesoftware.tradinghelperkotlin.util.ExtensionUtil.toJsonObject
 import com.basesoftware.tradinghelperkotlin.util.ExtensionUtil.toResponseModel
 import com.basesoftware.tradinghelperkotlin.util.Constant
