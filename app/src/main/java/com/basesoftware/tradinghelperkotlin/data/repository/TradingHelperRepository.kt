@@ -9,12 +9,18 @@ import com.basesoftware.tradinghelperkotlin.util.ExtensionUtil.toJsonObject
 import com.basesoftware.tradinghelperkotlin.util.ExtensionUtil.toResponseModel
 import com.basesoftware.tradinghelperkotlin.util.Constant
 import dagger.hilt.android.scopes.ActivityRetainedScoped
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.request.post
+import io.ktor.client.statement.bodyAsText
+import io.ktor.util.InternalAPI
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import kotlinx.coroutines.rx3.rxSingle
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
@@ -57,6 +63,41 @@ class TradingHelperRepository
                     override fun onSuccess(response: ApiResponseModel) { dataList.onNext(response) }
 
                     override fun onError(t: Throwable) { error.onNext("Retrofit ile veri alma başarısız") }
+
+                })
+
+        )
+
+
+    }
+
+    @OptIn(InternalAPI::class)
+    fun requestKtor(requestBody : String) {
+
+        compositeDisposable.clear() // Disposable temizlendi
+
+        compositeDisposable.add(
+
+            /**
+             * Ktor istek için coroutine kullanılmasını şart koşar
+             * Bu nedenle Coroutine ile RxJava birleştirildi
+             */
+            rxSingle {
+
+                HttpClient(CIO) // Client'ı oluşturuldu
+                    .post(Constant.REQUEST_URL) {
+                        body = requestBody // Request body verildi
+                    }.bodyAsText() // Response JsonString olarak alındı
+
+            }
+                .subscribeOn(Schedulers.io()) // I/O thread kullanıldı
+                .observeOn(AndroidSchedulers.mainThread()) // MainThread gözlemledi
+                .map { responseBody -> JSONObject(responseBody) } // Gelen içerik JSONObject'e çevrildi
+                .subscribeWith(object : DisposableSingleObserver<JSONObject>(){
+
+                    override fun onSuccess(obj: JSONObject) { dataList.onNext(obj.toResponseModel()) } // İşlem başarılı
+
+                    override fun onError(e: Throwable) { error.onNext("Ktor ile veri alma başarısız") } // Başarısız ise Log yazdır
 
                 })
 

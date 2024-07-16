@@ -57,6 +57,8 @@ class TradingViewModel @Inject constructor(private var repository: TradingHelper
 
             Library.RETROFIT -> repository.requestRetrofit(requestBody)
 
+            Library.KTOR -> repository.requestKtor(requestBody)
+
             Library.VOLLEY -> repository.requestVolley(requestBody)
 
             Library.OKHTTP-> repository.requestOkHttp(requestBody)

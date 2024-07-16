@@ -37,6 +37,13 @@
                 android:tag="@{Library.RETROFIT}"/>
 
             <RadioButton
+                android:id="@+id/rdKtor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ktor"
+                android:tag="@{Library.KTOR}"/>
+
+            <RadioButton
                 android:id="@+id/rdVolley"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

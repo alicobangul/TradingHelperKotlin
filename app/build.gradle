@@ -57,12 +57,21 @@ dependencies {
     def swipe_refresh_layout="1.1.0"
     def recyclerview ="1.2.1"
 
+    def rxkotlin = "3.0.0"
+    def rxandroid = "3.0.0"
+
     def coroutines="1.5.2"
     def lifecycle_version="2.4.0"
+
+    def retrofit = "2.9.0"
+    def retrofitRxJava3Adapter = "2.9.0"
+    def retrofit_scalars = "2.4.0"
 
     def volley = "1.2.1"
 
     def okhttp = "4.10.0"
+
+    def ktor = "2.3.12"
 
     def glide_version = "4.15.1"
     def glidetovectoryou = "2.0.0"
@@ -80,23 +89,26 @@ dependencies {
 
     //---------------------------------------------------------------//
 
-    def rxkotlin = "3.0.0"
-    def rxandroid = "3.0.0"
     implementation("io.reactivex.rxjava3:rxkotlin:$rxkotlin")
     implementation "io.reactivex.rxjava3:rxandroid:$rxandroid"
 
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx3:$coroutines")
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
     //---------------------------------------------------------------//
 
-    def retrofit = "2.9.0"
-    def retrofitRxJava3Adapter = "2.9.0"
-    def retrofit_scalars = "2.4.0"
     implementation ("com.squareup.retrofit2:retrofit:$retrofit")
     implementation ("com.squareup.retrofit2:converter-gson:$retrofit")
     implementation ("com.squareup.retrofit2:adapter-rxjava3:$retrofitRxJava3Adapter")
     implementation "com.squareup.retrofit2:converter-scalars:$retrofit_scalars"
+
+    //---------------------------------------------------------------//
+
+    implementation("io.ktor:ktor-client-core:$ktor")
+    implementation("io.ktor:ktor-client-cio:$ktor")
+    implementation("io.ktor:ktor-client-serialization:$ktor")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor")
 
     //---------------------------------------------------------------//
 
